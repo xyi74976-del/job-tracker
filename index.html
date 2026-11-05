@@ -2,9 +2,51 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>求职投递管理</title>
 </head>
 <body>
   <h1>求职投递管理</h1>
+
+  <form id="application-form">
+
+    <div>
+      <label for="company">公司</label>
+      <input id="company" name="company" type="text" required>
+    </div>
+    <div>
+      <label for="position">岗位</label>
+      <input id="position" name="position" type="text" required>
+    </div>
+    <div>
+      <label for="city">城市</label>
+      <input id="city" name="city" type="text">
+    </div>
+    <div>
+      <label for="channel">渠道</label>
+      <select id="channel" name="channel">
+
+        <option value="">请选择</option>
+        <option value="boss">BOSS直聘</option>
+        <option value="referral">内推</option>
+        <option value="website">公司官网</option>
+        <option value="other">其他</option>
+      </select>
+    </div>
+    <div>
+      <label for="salary">薪资范围</label>
+      <input id="salary" name="salary" type="text" placeholder="如 150-200/天，或面议">
+    </div>
+    <div>
+      <label for="appliedAt">投递日期</label>
+      <input id="appliedAt" name="appliedAt" type="date" required>
+    </div>
+    <div>
+      <label for="notes">备注</label>
+      <textarea id="notes" name="notes" rows="3" placeholder="内推人、面经、HR 说的话"></textarea>
+    </div>
+
+    <button type="submit">保存</button>
+  </form>
 </body>
 </html>
