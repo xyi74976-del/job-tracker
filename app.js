@@ -8,6 +8,7 @@ const STATUS_TEXT = {
   offer: "Offer",
   rejected: "已挂",
 };
+const STATUS_ORDER = Object.keys(STATUS_TEXT);
 
 function load() {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -23,11 +24,11 @@ let applications = load();      // 原来是 = []
 
 function render() {
   list.innerHTML = applications
-    .map((item) => `<li data-id="${item.id}"><strong>${item.company}</strong> · ${item.position} · ${item.appliedAt} · ${STATUS_TEXT[item.status] || "已投递"} <button class="delete-btn">删除</button></li>`)
+    .map((item) => `<li data-id="${item.id}"><strong>${item.company}</strong> · ${item.position} · ${item.appliedAt} · <span class="status-btn">${STATUS_TEXT[item.status] || "已投递"}</span>
+ <button class="delete-btn">删除</button></li>`)
 
     .join("");
 }
-
 list.addEventListener("click", (event) => {
   if (!event.target.classList.contains("delete-btn")) return;
 
@@ -37,6 +38,21 @@ list.addEventListener("click", (event) => {
   save();
   render();
 });
+
+list.addEventListener("click", (event) => {
+  if (!event.target.classList.contains("status-btn")) return;
+
+  const id = event.target.closest("li").dataset.id;
+  const item = applications.find((a) => a.id === id);
+
+  const next = (STATUS_ORDER.indexOf(item.status) + 1) % STATUS_ORDER.length;
+  item.status = STATUS_ORDER[next];
+
+  save();
+  render();
+});
+
+
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
