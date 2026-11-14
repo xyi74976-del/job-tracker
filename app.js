@@ -1,5 +1,7 @@
 const form = document.querySelector("#application-form");
 const list = document.querySelector("#application-list");
+const stats = document.querySelector("#stats");
+
 const STORAGE_KEY = "job-tracker:applications";
 const STATUS_TEXT = {
   applied: "已投递",
@@ -21,6 +23,13 @@ function save() {
 
 let applications = load();      // 原来是 = []
 
+function updateStats() {
+  const total = applications.length;
+  const interviewing = applications.filter((a) => a.status === "interview").length;
+  const offers = applications.filter((a) => a.status === "offer").length;
+
+  stats.innerHTML = `总投递 <strong>${total}</strong> · 面试中 <strong>${interviewing}</strong> · Offer <strong>${offers}</strong>`;
+}
 
 function render() {
   list.innerHTML = applications
@@ -28,6 +37,8 @@ function render() {
  <button class="delete-btn">删除</button></li>`)
 
     .join("");
+    updateStats();
+
 }
 list.addEventListener("click", (event) => {
   if (!event.target.classList.contains("delete-btn")) return;
