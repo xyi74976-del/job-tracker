@@ -1,6 +1,13 @@
 const form = document.querySelector("#application-form");
 const list = document.querySelector("#application-list");
 const STORAGE_KEY = "job-tracker:applications";
+const STATUS_TEXT = {
+  applied: "已投递",
+  viewed: "已查看",
+  interview: "面试中",
+  offer: "Offer",
+  rejected: "已挂",
+};
 
 function load() {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -16,7 +23,8 @@ let applications = load();      // 原来是 = []
 
 function render() {
   list.innerHTML = applications
-    .map((item) => `<li data-id="${item.id}"><strong>${item.company}</strong> · ${item.position} · ${item.appliedAt} <button class="delete-btn">删除</button></li>`)
+    .map((item) => `<li data-id="${item.id}"><strong>${item.company}</strong> · ${item.position} · ${item.appliedAt} · ${STATUS_TEXT[item.status] || "已投递"} <button class="delete-btn">删除</button></li>`)
+
     .join("");
 }
 
@@ -35,6 +43,8 @@ form.addEventListener("submit", (event) => {
 
   const data = Object.fromEntries(new FormData(form));
   data.id = crypto.randomUUID();
+  data.status = "applied";
+
   applications.push(data);
   save(); 
 
